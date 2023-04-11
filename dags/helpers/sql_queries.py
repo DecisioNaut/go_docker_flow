@@ -4,7 +4,7 @@ class SqlQueries:
     # Udacity's provided queries
 
     songplay_table_insert = """
-        INSERT INTO songplays (
+        (
             session_id,
             songplay_id,
             start_time,
