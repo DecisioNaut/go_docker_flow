@@ -14,6 +14,7 @@ The fictional task is to help the startup "Sparkify". It is more or less the sam
 __Please note the following__:
 - In the aforementioned repo, I intensively explored the data and therefore came up with slightly different design choices for the dimension and fact table construction than Udacity (which had a rather naive approach). The dimensions are better designed when mostly based on the log-data and only partially enriched by song-data where applicable. This also leads to dependencies of the songs dimension table on the artists dimension table, which therefore should be reflected in the pipeline:  
 <img src="images/dag_structure.png"  width="1000">  
+
 - The song data in Udacity's S3 bucket is quite large and in a nested folder structure, which sometimes makes loading the data break. However, the song data is not well aligned with the log data, and therefore I suggest that - for this demonstration - it is also sufficient to load them only partially (like from s3://udacity-dend/song-data/A/A/A) (for Udacity students see also [here](https://knowledge.udacity.com/questions/977213)).  
 - Although the rubric asks for an hourly schedule of the project DAG/pipeline, I decided to set it to daily to avoid it from running wild directly after starting Airflow triggering numerous runs.
 
