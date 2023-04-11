@@ -97,6 +97,15 @@ def sparkify_pipe():
 
     run_quality_checks = DataQualityOperator(
         task_id="Run_data_quality_checks",
+        test_query="""
+            SELECT
+                count(session_id) + count(songplay_id) AS primary_keys
+            FROM
+                songplays
+            WHERE
+                (session_id IS NULL) OR (songplay_id IS NULL)
+        """,
+        expected_result=0,
     )
 
     end_operator = EmptyOperator(task_id="End_execution")
