@@ -1,11 +1,8 @@
-# import os
-# from datetime import datetime, timedelta
-
 import pendulum
 from airflow.decorators import dag
 from airflow.operators.empty import EmptyOperator
-from custom_operators import DataQualityOperator  # StaticQueryOperator,
 from custom_operators import (
+    DataQualityOperator,
     LoadDimensionOperator,
     LoadFactOperator,
     StageToRedshiftOperator,
@@ -25,8 +22,7 @@ default_args = {
 @dag(
     default_args=default_args,
     description="Load and transform data in Redshift with Airflow",
-    schedule_interval=None,
-    # schedule_interval='0 * * * *',
+    schedule_interval="@hourly",
 )
 def sparkify_pipe():
     """
