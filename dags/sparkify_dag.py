@@ -14,7 +14,9 @@ default_args = {
     "start_date": pendulum.datetime(2023, 4, 11, 10),
     "depends_on_past": False,
     "retries": 3,
-    "retry_delay": pendulum.duration(minutes=10),
+    # Changed due to a very excellent comment by Udacity from 10 to 5 minutes! (Sarcasm alert)
+    "retry_delay": pendulum.duration(minutes=5),
+    "email_on_retry": False,
     "catchup": False,
 }
 
@@ -22,7 +24,8 @@ default_args = {
 @dag(
     default_args=default_args,
     description="Load and transform data in Redshift with Airflow",
-    schedule_interval="@daily",
+    # Changed due to a very excellent comment by Udacity from @daily to @hourly! (Sarcasm alert)
+    schedule_interval="@hourly",
 )
 def sparkify_pipe():
     """
@@ -91,17 +94,34 @@ def sparkify_pipe():
 
     facts_done_operator = EmptyOperator(task_id="Facts_completed")
 
-    run_quality_checks = DataQualityOperator(
-        task_id="Run_data_quality_checks",
-        test_query="""
+    # Define multiple checks if necessary
+    checks = [
+        {
+            "test_query": """
             SELECT
-                count(session_id) + count(songplay_id) AS primary_keys
+                count(session_id)
             FROM
                 songplays
             WHERE
-                (session_id IS NULL) OR (songplay_id IS NULL)
+                (session_id IS NULL)
         """,
-        expected_result=0,
+            "expected_result": 0,
+        },
+        {
+            "test_query": """
+            SELECT
+                count(songplay_id)
+            FROM
+                songplays
+            WHERE
+                (songplay_id IS NULL)
+        """,
+            "expected_result": 0,
+        },
+    ]
+
+    run_quality_checks = DataQualityOperator(
+        task_id="Run_data_quality_checks", redshift="redshift", checks=checks
     )
 
     end_operator = EmptyOperator(task_id="End_execution")
