@@ -33,7 +33,7 @@ docker_compose.yaml
 README.md
 ```
 
-Please note that [plugins do not allow for importing operators since Airflow version 2.0](https://airflow.apache.org/docs/apache-airflow/stable/authoring-and-scheduling/plugins.html) as well as hooks and sensors any longer. Therefore, I rearranged the files structure template provided by Udacity.
+Please note that [plugins do not allow for importing operators since Airflow version 2.0](https://airflow.apache.org/docs/apache-airflow/stable/authoring-and-scheduling/plugins.html) as well as hooks and sensors any longer. Therefore I rearranged the files structure compared to the template provided by Udacity.
 Furthermore, I decided to build Airflow DAGs for creating and destroying the tables in Redshift as `create_tables_dag.py` and `drop_tables_dag.py`, both using the Operator defined in `static_query.py`.
 
 
