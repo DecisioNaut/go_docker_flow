@@ -10,7 +10,7 @@ class LoadDimensionOperator(BaseOperator):
     def __init__(
         self, table, query, redshift="redshift", append=False, *args, **kwargs
     ):
-        super(LoadDimensionOperator, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.table = table
         self.query = query
         self.redshift = redshift

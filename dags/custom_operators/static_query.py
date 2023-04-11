@@ -10,7 +10,7 @@ class StaticQueryOperator(BaseOperator):
 
     @apply_defaults
     def __init__(self, redshift, query, *args, **kwargs):
-        super(StaticQueryOperator, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.redshift = redshift
         self.query = query
 

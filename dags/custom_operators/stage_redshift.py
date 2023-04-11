@@ -29,7 +29,6 @@ class StageToRedshiftOperator(BaseOperator):
         *args,
         **kwargs,
     ):
-        # super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
         super().__init__(*args, **kwargs)
 
         metastore_backend = MetastoreBackend()

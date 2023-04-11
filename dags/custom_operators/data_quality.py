@@ -15,7 +15,7 @@ class DataQualityOperator(BaseOperator):
         *args,
         **kwargs,
     ):
-        super(DataQualityOperator, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         # Map params here
         # Example:
         # self.conn_id = conn_id
