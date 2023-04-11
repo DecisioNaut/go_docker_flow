@@ -16,7 +16,7 @@ __Please note the following__:
 <img src="images/dag_structure.png"  width="1000">  
 
 - The song data in Udacity's S3 bucket is quite large and in a nested folder structure, which sometimes makes loading the data break. However, the song data is not well aligned with the log data, and therefore I suggest that - for this demonstration - it is also sufficient to load them only partially (like from s3://udacity-dend/song-data/A/A/A) (for Udacity students see also [here](https://knowledge.udacity.com/questions/977213)).  
-- Although the rubric asks for an hourly schedule of the project DAG/pipeline, I decided to set it to daily to avoid it from running wild directly after starting Airflow triggering numerous runs.
+- Although the rubric asks for an hourly schedule of the project DAG/pipeline, I decided to set it to daily to avoid it from running wild directly after starting Airflow triggering numerous runs (and I returned back to @hourly because nitty-gritty Udacity made me do so)
 
 ## 2. Repository structure
 ```
