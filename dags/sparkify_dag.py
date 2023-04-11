@@ -11,7 +11,7 @@ from helpers import SqlQueries
 
 default_args = {
     "owner": "me",
-    "start_date": pendulum.datetime(2030, 12, 31),
+    "start_date": pendulum.datetime(2023, 4, 11, 10),
     "depends_on_past": False,
     "retries": 3,
     "retry_delay": pendulum.duration(minutes=10),
@@ -22,7 +22,7 @@ default_args = {
 @dag(
     default_args=default_args,
     description="Load and transform data in Redshift with Airflow",
-    schedule_interval="@hourly",
+    schedule_interval="@daily",
 )
 def sparkify_pipe():
     """

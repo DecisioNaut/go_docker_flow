@@ -6,7 +6,7 @@ from helpers import SqlQueries
 
 default_args = {
     "owner": "me",
-    "start_date": pendulum.datetime(2023, 1, 1),
+    "start_date": pendulum.datetime(2023, 4, 11),
     "depends_on_past": False,
     "retries": 3,
     "retry_delay": pendulum.duration(minutes=1),
@@ -74,10 +74,10 @@ def create_tables():
             create_staging_events_table,
             create_staging_songs_table,
             create_artists_table,
-            create_songs_table,
             create_time_table,
             create_users_table,
         ]
+        >> create_songs_table
         >> create_songplays_table
         >> end_operator
     )

@@ -6,7 +6,7 @@ from helpers import SqlQueries
 
 default_args = {
     "owner": "me",
-    "start_date": pendulum.datetime(2030, 12, 31),
+    "start_date": pendulum.datetime(2023, 4, 11),
     "depends_on_past": False,
     "retries": 3,
     "retry_delay": pendulum.duration(minutes=1),
@@ -16,7 +16,7 @@ default_args = {
 
 @dag(
     description="Process to drop the tables in Amazon Redshift if existant",
-    schedule_interval=None,
+    schedule_interval="@once",
     default_args=default_args,
 )
 def drop_tables():
@@ -70,15 +70,13 @@ def drop_tables():
 
     (
         start_operator
-        >> [
-            drop_staging_events_table,
-            drop_staging_songs_table,
-            drop_artists_table,
-            drop_songs_table,
-            drop_time_table,
-            drop_users_table,
-        ]
         >> drop_songplays_table
+        >> drop_songs_table
+        >> drop_artists_table
+        >> drop_users_table
+        >> drop_time_table
+        >> drop_staging_events_table
+        >> drop_staging_songs_table
         >> end_operator
     )
 
