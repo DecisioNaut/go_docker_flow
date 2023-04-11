@@ -16,7 +16,7 @@ default_args = {
 
 @dag(
     description="Process to create the tables necessary in Amazon Redshift if not existant",
-    schedule_interval=None,
+    schedule_interval="@once",
     default_args=default_args,
 )
 def create_tables():

@@ -11,7 +11,7 @@ from helpers import SqlQueries
 
 default_args = {
     "owner": "me",
-    "start_date": pendulum.datetime(2023, 1, 1),
+    "start_date": pendulum.datetime(2030, 12, 31),
     "depends_on_past": False,
     "retries": 3,
     "retry_delay": pendulum.duration(minutes=10),
