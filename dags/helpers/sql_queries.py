@@ -72,7 +72,6 @@ class SqlQueries:
     """
 
     artist_table_insert = """
-        INSERT INTO artists
         WITH
         artist_names AS (
             SELECT DISTINCT
@@ -122,7 +121,6 @@ class SqlQueries:
     """
 
     song_table_insert = """
-        INSERT INTO songs
         WITH staging_events_songs AS (
             SELECT
                 song AS title,
@@ -183,7 +181,6 @@ class SqlQueries:
     """
 
     time_table_insert = """
-        INSERT INTO time
         SELECT
             TIMESTAMP 'epoch' + ts/1000 * INTERVAL '1 second' AS start_time,
             EXTRACT(year FROM TIMESTAMP 'epoch' + ts/1000 * INTERVAL '1 second') AS year,
@@ -205,7 +202,6 @@ class SqlQueries:
     """
 
     user_table_insert = """
-        INSERT INTO users
         WITH
             user_staging_events AS (
                 SELECT

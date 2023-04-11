@@ -4,8 +4,9 @@
 import pendulum
 from airflow.decorators import dag
 from airflow.operators.empty import EmptyOperator
-from custom_operators import (  # LoadDimensionOperator,; # LoadFactOperator,
-    DataQualityOperator,
+from custom_operators import DataQualityOperator  # LoadFactOperator,
+from custom_operators import (
+    LoadDimensionOperator,
     StageToRedshiftOperator,
     StaticQueryOperator,
 )
@@ -50,50 +51,31 @@ def sparkify_pipe():
 
     staging_done_operator = EmptyOperator(task_id="Staging_completed")
 
-    """
-
     load_artist_dimension_table = LoadDimensionOperator(
         task_id="Load_artist_dim_table",
+        redshift="redshift",
+        table="artists",
+        query=SqlQueries.artist_table_insert,
     )
 
     load_song_dimension_table = LoadDimensionOperator(
         task_id="Load_song_dim_table",
+        redshift="redshift",
+        table="songs",
+        query=SqlQueries.song_table_insert,
     )
 
     load_time_dimension_table = LoadDimensionOperator(
         task_id="Load_time_dim_table",
+        redshift="redshift",
+        table="time",
+        query=SqlQueries.time_table_insert,
     )
 
     load_user_dimension_table = LoadDimensionOperator(
         task_id="Load_user_dim_table",
-    )
-
-    load_songplays_table = LoadFactOperator(
-        task_id="Load_songplays_fact_table",
-    )
-    """
-
-    load_artist_dimension_table = StaticQueryOperator(
-        task_id="Load_artist_dim_table",
         redshift="redshift",
-        query=SqlQueries.artist_table_insert,
-    )
-
-    load_song_dimension_table = StaticQueryOperator(
-        task_id="Load_song_dim_table",
-        redshift="redshift",
-        query=SqlQueries.song_table_insert,
-    )
-
-    load_time_dimension_table = StaticQueryOperator(
-        task_id="Load_time_dim_table",
-        redshift="redshift",
-        query=SqlQueries.time_table_insert,
-    )
-
-    load_user_dimension_table = StaticQueryOperator(
-        task_id="Load_user_dim_table",
-        redshift="redshift",
+        table="users",
         query=SqlQueries.user_table_insert,
     )
 

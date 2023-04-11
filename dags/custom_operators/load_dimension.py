@@ -6,19 +6,29 @@ from airflow.utils.decorators import apply_defaults
 class LoadDimensionOperator(BaseOperator):
     ui_color = "#80BD9E"
 
+    insert_sql = """
+    INSERT INTO {}
+    {}
+    """
+
     @apply_defaults
-    def __init__(
-        self,
-        # Define your operators params (with defaults) here
-        # Example:
-        # conn_id = your-connection-name
-        *args,
-        **kwargs
-    ):
+    def __init__(self, table, query, redshift="redshift", *args, **kwargs):
         super(LoadDimensionOperator, self).__init__(*args, **kwargs)
-        # Map params here
-        # Example:
-        # self.conn_id = conn_id
+        self.table = table
+        self.query = query
+        self.redshift = redshift
 
     def execute(self, context):
-        self.log.info("LoadDimensionOperator not implemented yet")
+        self.log.info("Connecting to Redshift")
+        redshift_connection = PostgresHook(postgres_conn_id=self.redshift)
+
+        self.log.info(f"Clearing data from Redshift table {self.table}")
+        redshift_connection.run(f"DELETE FROM {self.table}")
+
+        self.log.info(f"Insert data to Redshift table {self.table}")
+
+        query = LoadDimensionOperator.insert_sql.format(self.table, self.query)
+
+        redshift_connection.run(query)
+
+        self.log.info(f"Completed inserting data to Redshift table {self.table}")
