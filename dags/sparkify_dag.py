@@ -4,8 +4,8 @@
 import pendulum
 from airflow.decorators import dag
 from airflow.operators.empty import EmptyOperator
+from custom_operators import DataQualityOperator  # StaticQueryOperator,
 from custom_operators import (
-    DataQualityOperator,  # StaticQueryOperator,
     LoadDimensionOperator,
     LoadFactOperator,
     StageToRedshiftOperator,
@@ -56,6 +56,7 @@ def sparkify_pipe():
         redshift="redshift",
         table="artists",
         query=SqlQueries.artist_table_insert,
+        append=False,
     )
 
     load_song_dimension_table = LoadDimensionOperator(
@@ -63,6 +64,7 @@ def sparkify_pipe():
         redshift="redshift",
         table="songs",
         query=SqlQueries.song_table_insert,
+        append=False,
     )
 
     load_time_dimension_table = LoadDimensionOperator(
@@ -70,6 +72,7 @@ def sparkify_pipe():
         redshift="redshift",
         table="time",
         query=SqlQueries.time_table_insert,
+        append=False,
     )
 
     load_user_dimension_table = LoadDimensionOperator(
@@ -77,6 +80,7 @@ def sparkify_pipe():
         redshift="redshift",
         table="users",
         query=SqlQueries.user_table_insert,
+        append=False,
     )
 
     dimensions_done_operator = EmptyOperator(task_id="Dimensions_completed")
@@ -86,6 +90,7 @@ def sparkify_pipe():
         redshift="redshift",
         table="songplays",
         query=SqlQueries.songplay_table_insert,
+        append=False,
     )
 
     facts_done_operator = EmptyOperator(task_id="Facts_completed")
